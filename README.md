@@ -6,7 +6,7 @@ churn prediction, review-score prediction, revenue forecasting, product
 recommendation and Portuguese review NLP — served through an 8-page Streamlit
 dashboard.
 
-**Live dashboard:** (https://ecomiq.streamlit.app/)
+**Live dashboard:** https://ecomiq.streamlit.app
 
 ![EcomIQ dashboard](docs/images/dashboard.png)
 
