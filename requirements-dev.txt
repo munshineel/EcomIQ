@@ -1,0 +1,18 @@
+# EcomIQ — TRAINING dependencies. Install alongside requirements.txt to run
+# notebooks 01-07 and the test suite.
+#
+#   pip install -r requirements.txt -r requirements-dev.txt
+#
+# Deliberately NOT in requirements.txt: none of these are imported by the
+# running app, and including them would add ~500MB to the Streamlit Cloud
+# build for no benefit.
+
+xgboost>=2.0             # churn + review models (notebook 04)
+shap>=0.45               # explainability (notebook 04)
+statsmodels>=0.14        # SARIMA (notebook 05)
+matplotlib>=3.8          # notebook figures
+seaborn>=0.13
+ipykernel>=6.29          # VS Code notebook support
+tqdm>=4.66
+pytest>=8.0
+ruff>=0.4

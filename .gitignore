@@ -1,0 +1,64 @@
+# ============================================================================
+# EcomIQ — .gitignore
+#
+# Rule: raw data and large training-only artifacts stay out. Everything the
+# deployed Streamlit app needs to boot stays IN, because Streamlit Community
+# Cloud clones this repo and runs it with no build step.
+# ============================================================================
+
+# --- Raw data: 121MB, redistributable from Kaggle ---------------------------
+data/raw/*
+!data/raw/.gitkeep
+
+# --- Interim scratch --------------------------------------------------------
+data/interim/*
+!data/interim/.gitkeep
+
+# --- Processed data: KEEP. ~32MB, and the app cannot start without it -------
+!data/processed/
+!data/processed/*.csv
+!data/processed/*.parquet
+
+# --- Models -----------------------------------------------------------------
+# Only the churn model is loaded at runtime (3MB). The other three are
+# training artifacts totalling 59MB; the app reads their precomputed outputs.
+models/*
+!models/.gitkeep
+!models/churn_model.joblib
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.Python
+*.egg-info/
+dist/
+build/
+
+# --- Testing / linting ------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# --- Notebooks --------------------------------------------------------------
+.ipynb_checkpoints/
+
+# --- Streamlit --------------------------------------------------------------
+.streamlit/secrets.toml
+
+# --- OS / editor ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# --- Local ------------------------------------------------------------------
+*.log
+.env

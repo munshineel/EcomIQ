@@ -1,0 +1,17 @@
+# Theme matched to src/viz/style.py so notebook figures and app charts read as
+# one product rather than two.
+
+[theme]
+primaryColor = "#3B6EA5"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8FAFC"
+textColor = "#1F2937"
+font = "sans serif"
+
+[server]
+headless = true
+# enableCORS is deliberately NOT set: setting it false conflicts with
+# enableXsrfProtection, and Streamlit overrides it back to true with a warning.
+
+[browser]
+gatherUsageStats = false

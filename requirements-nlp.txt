@@ -1,0 +1,13 @@
+# EcomIQ — OPTIONAL transformer NLP (notebook 07, phase 12 comparison only).
+#
+# ~2.5GB. Do not install unless you are running the transformer-vs-TF-IDF
+# comparison. The deployed sentiment model is TF-IDF + LinearSVC, which reaches
+# ROC-AUC 0.976 and needs nothing beyond scikit-learn.
+#
+# Portuguese models to use:
+#   neuralmind/bert-base-portuguese-cased
+#   sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+
+torch>=2.2
+transformers>=4.40
+sentence-transformers>=2.7
