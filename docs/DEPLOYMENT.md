@@ -16,9 +16,10 @@ build fails or times out.
 | `requirements-dev.txt` | xgboost, shap, statsmodels, matplotlib, pytest | ❌ no |
 | `requirements-nlp.txt` | torch, transformers | ❌ no |
 
-The deployed churn model is a **Random Forest** (scikit-learn), so xgboost is
-not needed at runtime. The forecast, recommender and sentiment pages read
-precomputed CSV and parquet output rather than loading their models.
+The deployed churn model is **logistic regression** (scikit-learn), selected on
+validation, so xgboost is not needed at runtime. The forecast, recommender,
+sentiment and low-review pages read precomputed CSV and parquet output rather
+than loading their models.
 
 Verified: all 8 pages run with only `models/churn_model.joblib` present.
 
@@ -40,6 +41,7 @@ Expect roughly **51MB** committed:
 |---|---|
 | `data/processed/*` (~32MB) | The app cannot start without it — there is no build step on Cloud |
 | `models/churn_model.joblib` (3MB) | Page 4 scores live |
+| `data/processed/*_comparison.csv` | Model Performance page reads them |
 | all code, notebooks, tests, figures | |
 
 | Excluded | Why |
@@ -55,9 +57,9 @@ Expect roughly **51MB** committed:
 ```powershell
 git init
 git add .
-git commit -m "EcomIQ: end-to-end e-commerce decision intelligence platform"
+git commit -m "PropheticIQ: end-to-end e-commerce decision intelligence platform"
 git branch -M main
-git remote add origin https://github.com/YOURNAME/ecomiq.git
+git remote add origin https://github.com/YOURNAME/PropheticIQ.git
 git push -u origin main
 ```
 
@@ -79,7 +81,7 @@ git commit -m "Remove raw data from tracking"
 2. Sign in with GitHub, authorise access
 3. **New app** → **Deploy a public app from GitHub**
 4. Fill in:
-   - Repository: `YOURNAME/ecomiq`
+   - Repository: `YOURNAME/PropheticIQ`
    - Branch: `main`
    - **Main file path: `app/Home.py`**
 5. **Advanced settings → Python version: 3.12**
@@ -88,10 +90,10 @@ git commit -m "Remove raw data from tracking"
 First build takes 3–5 minutes. Watch the log panel; if it fails, the traceback
 appears there.
 
-Your URL: `https://YOURNAME-ecomiq-app-home-xxxxx.streamlit.app`
+Your URL: `https://YOURNAME-propheticiq-app-home-xxxxx.streamlit.app`
 
 Rename it under **Settings → General → App URL** to something like
-`ecomiq.streamlit.app` if free.
+`propheticiq.streamlit.app` if free.
 
 ---
 
@@ -103,7 +105,9 @@ Rename it under **Settings → General → App URL** to something like
       (scores are cached; only the threshold recomputes)
 - [ ] Product Recommendations: pick a seed, get 10 results
 - [ ] Review Intelligence: theme heatmap renders
-- [ ] Model Performance: expanders open, figures display
+- [ ] Model Performance: five expanders open, figures display
+- [ ] Churn page footer says the deployed model is **logistic** (if it says
+      random_forest, re-run `notebooks/04_churn_model.py` and push)
 
 If a page shows a **missing artifact** table instead of content, the listed
 file was not committed. Check `.gitignore` did not exclude it.
@@ -115,7 +119,7 @@ file was not committed. Check `.gitignore` did not exclude it.
 Line 8 of `README.md`:
 
 ```markdown
-**Live dashboard:** https://ecomiq.streamlit.app
+**Live dashboard:** https://propheticiq.streamlit.app
 ```
 
 Add a screenshot immediately below it — most people will not click the link,
@@ -127,7 +131,7 @@ mkdir docs\images
 ```
 
 ```markdown
-![EcomIQ dashboard](docs/images/dashboard.png)
+![PropheticIQ dashboard](docs/images/dashboard.png)
 ```
 
 ```powershell
@@ -156,22 +160,25 @@ Streamlit Cloud redeploys automatically on every push.
 ## Resume format
 
 ```
-EcomIQ — E-Commerce Decision Intelligence Platform
-github.com/YOURNAME/ecomiq  ·  ecomiq.streamlit.app
+PropheticIQ — E-Commerce Decision Intelligence Platform
+github.com/YOURNAME/PropheticIQ  ·  propheticiq.streamlit.app
 ```
 
 Lead bullets with findings, not the tech list:
 
 > Built an end-to-end analytics platform on 100k Brazilian marketplace orders:
-> segmentation (K-Means), churn and review-score prediction (XGBoost + SHAP),
-> 30-day revenue forecasting (SARIMA, 13% better than seasonal-naive),
-> content-based recommendations (recall@10 0.22, 734x random), and Portuguese
-> review sentiment (F1 0.88). Deployed as an 8-page Streamlit dashboard.
+> customer segmentation (K-Means), churn and low-review prediction (XGBoost +
+> SHAP, 3.19x PR-AUC lift), 30-day revenue forecasting (SARIMA, 13% better than
+> a seasonal-naive baseline), content-based recommendations (recall@10 0.22,
+> 734x random), and Portuguese review sentiment (F1 0.88). Deployed as an
+> 8-page Streamlit dashboard with cached inference and a live campaign-ROI tool.
 
 > Quantified where models do not work rather than overselling: proved
 > collaborative filtering infeasible at 99.996% matrix sparsity, and reported
 > the churn model's 1.32x lift honestly rather than hiding it behind the 98%
-> accuracy a do-nothing baseline achieves.
+> accuracy a do-nothing baseline achieves. Isolated the cause with a controlled
+> comparison -- the same pipeline reaches 3.19x lift on a second target, so the
+> limit is the data, not the method.
 
 The second bullet is the differentiator. Interviewers see many Olist projects
 claiming great results; almost none report what failed and why.

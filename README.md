@@ -1,4 +1,4 @@
-# EcomIQ — AI-Powered E-Commerce Decision Intelligence Platform
+# PropheticIQ — E-Commerce Intelligence & Decision Platform
 
 End-to-end analytics platform on the [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 (99,441 orders, Jan 2017 – Aug 2018). Six analytical components — segmentation,
@@ -6,9 +6,7 @@ churn prediction, review-score prediction, revenue forecasting, product
 recommendation and Portuguese review NLP — served through an 8-page Streamlit
 dashboard.
 
-**Live dashboard:** https://ecomiq.streamlit.app
-
-![EcomIQ dashboard](docs/images/dashboard.png)
+**Live dashboard:** _add your Streamlit Cloud URL here_
 
 ---
 
@@ -203,9 +201,9 @@ pytest tests/ -q          # 51 tests
 Programmatic scoring:
 
 ```python
-from src.inference.pipeline import EcomIQPipeline
+from src.inference.pipeline import PropheticIQPipeline
 
-pipe = EcomIQPipeline()
+pipe = PropheticIQPipeline()
 pipe.health_check()                      # which artifacts exist
 pipe.score_churn(orders, budget_pct=5)   # adds repeat_proba + contact_flag
 pipe.forecast_revenue(days=30)           # with 80% intervals

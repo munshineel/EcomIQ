@@ -1,6 +1,6 @@
 """Inference pipeline: load trained artifacts and score new records.
 
-One entry point per model, plus a single `EcomIQPipeline` that holds them all.
+One entry point per model, plus a single `PropheticIQPipeline` that holds them all.
 Models are loaded lazily and cached, so importing this module is cheap and only
 the models you actually call get read from disk.
 
@@ -11,9 +11,9 @@ on validation is stored inside the artifact and applied here.
 
 Usage
 -----
-    from src.inference.pipeline import EcomIQPipeline
+    from src.inference.pipeline import PropheticIQPipeline
 
-    pipe = EcomIQPipeline()
+    pipe = PropheticIQPipeline()
     pipe.score_churn(orders_df)          # adds proba + flag columns
     pipe.forecast_revenue(days=30)       # DataFrame with intervals
     pipe.recommend("product_id", k=10)   # list of product ids
@@ -52,7 +52,7 @@ def _load(path: Path, regenerate_with: str):
     return joblib.load(path)
 
 
-class EcomIQPipeline:
+class PropheticIQPipeline:
     """Serving wrapper around the four trained models."""
 
     def __init__(self, models_dir: Path | None = None,
@@ -227,4 +227,4 @@ class EcomIQPipeline:
         ])
 
 
-__all__ = ["EcomIQPipeline", "ArtifactMissingError"]
+__all__ = ["PropheticIQPipeline", "ArtifactMissingError"]

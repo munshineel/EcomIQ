@@ -10,7 +10,7 @@ from _shared import (
     page_setup, pct, require_artifacts, sidebar_filters,
 )
 
-page_setup("Executive Overview", "Marketplace performance and the risks behind it")
+page_setup("PropheticIQ", "E-Commerce Intelligence & Decision Platform · Executive Overview")
 
 require_artifacts("dashboard orders", "segments", "forecast CSV")
 
@@ -36,13 +36,20 @@ if filters["states"]:
     prev = prev[prev["customer_state"].isin(filters["states"])]
 if filters["categories"]:
     prev = prev[prev["category"].isin(filters["categories"])]
-
+if prev.empty:
+    st.caption("No prior period to compare against — narrow the date range to "
+               "see period-over-period changes.")
 
 def delta(cur: float, before: float) -> str | None:
-    if not before:
+    """Period-over-period change, or None when there is no comparable period.
+
+    Guards against NaN as well as zero: an empty prior window makes .sum()
+    return 0 (falsy, caught) but .mean() return NaN (truthy, not caught) —
+    which rendered as "+nan%" on the mean-based KPIs.
+    """
+    if before is None or pd.isna(before) or before == 0 or pd.isna(cur):
         return None
     return f"{(cur / before - 1) * 100:+.1f}%"
-
 
 revenue = fulfilled["revenue"].sum()
 n_orders = len(fulfilled)

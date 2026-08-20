@@ -1,4 +1,4 @@
-"""Shared loading, styling and components for the EcomIQ dashboard.
+"""Shared loading, styling and components for the PropheticIQ dashboard.
 
 Every page imports from here so that filters, colours and KPI cards are
 identical across the app -- which is most of what separates a product from a
@@ -47,9 +47,20 @@ CSS = """
 
 
 def page_setup(title: str, subtitle: str = "") -> None:
-    st.set_page_config(page_title=f"EcomIQ · {title}", page_icon="📊",
+    st.set_page_config(page_title=f"PropheticIQ · {title}", page_icon="📊",
                        layout="wide", initial_sidebar_state="expanded")
     st.markdown(CSS, unsafe_allow_html=True)
+
+    # Brand in the sidebar so it appears on every page and in screenshots,
+    # without competing with each page's own title.
+    st.sidebar.markdown(
+        "<div style='font-size:1.15rem;font-weight:700;color:#3B6EA5;"
+        "letter-spacing:-0.01em;'>PropheticIQ</div>"
+        "<div style='font-size:0.72rem;color:#64748B;margin-bottom:0.9rem;'>"
+        "E-Commerce Intelligence &amp; Decision Platform</div>",
+        unsafe_allow_html=True,
+    )
+
     st.title(title)
     if subtitle:
         st.caption(subtitle)
@@ -129,8 +140,8 @@ def get_pipeline():
     cache_resource, not cache_data: a pipeline holds unhashable sklearn objects
     and is shared across all sessions rather than copied per user.
     """
-    from src.inference.pipeline import EcomIQPipeline
-    return EcomIQPipeline()
+    from src.inference.pipeline import PropheticIQPipeline
+    return PropheticIQPipeline()
 
 
 @st.cache_data(show_spinner="Scoring customers...", ttl=3600)
@@ -186,7 +197,12 @@ def sidebar_filters(orders: pd.DataFrame, show_category: bool = True) -> dict:
 
     dmin = orders["order_purchase_timestamp"].min().date()
     dmax = orders["order_purchase_timestamp"].max().date()
-    default = st.session_state.get("date_range", (dmin, dmax))
+# Default to the last 6 months rather than the full range, so a comparable
+# prior period always exists and the period-over-period deltas render.
+# Selecting the full range means the prior window falls before the data
+# starts, and any delta shown there would be fabricated.
+    six_months_ago = max(dmin, (pd.Timestamp(dmax) - pd.DateOffset(months=6)).date())
+    default = st.session_state.get("date_range", (six_months_ago, dmax))
     date_range = st.sidebar.date_input(
         "Date range", value=default, min_value=dmin, max_value=dmax,
         help="Applies to every page and persists as you navigate. Limited to "

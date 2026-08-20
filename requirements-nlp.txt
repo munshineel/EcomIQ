@@ -1,4 +1,4 @@
-# EcomIQ — OPTIONAL transformer NLP (notebook 07, phase 12 comparison only).
+# PropheticIQ — OPTIONAL transformer NLP (notebook 07, phase 12 comparison only).
 #
 # ~2.5GB. Do not install unless you are running the transformer-vs-TF-IDF
 # comparison. The deployed sentiment model is TF-IDF + LinearSVC, which reaches

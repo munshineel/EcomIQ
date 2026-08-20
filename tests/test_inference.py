@@ -5,10 +5,10 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from src.inference.pipeline import ArtifactMissingError, EcomIQPipeline
+from src.inference.pipeline import ArtifactMissingError, PropheticIQPipeline
 from tests.conftest import needs_raw
 
-pipe = EcomIQPipeline()
+pipe = PropheticIQPipeline()
 ARTIFACTS_PRESENT = pipe.health_check()["present"].all()
 needs_artifacts = pytest.mark.skipif(
     not ARTIFACTS_PRESENT, reason="model artifacts not built; run the notebooks first")
@@ -21,7 +21,7 @@ def test_health_check_reports_every_artifact():
 
 
 def test_missing_artifact_error_names_the_fix(tmp_path):
-    broken = EcomIQPipeline(models_dir=tmp_path, processed_dir=tmp_path)
+    broken = PropheticIQPipeline(models_dir=tmp_path, processed_dir=tmp_path)
     with pytest.raises(ArtifactMissingError, match="notebooks/04_churn_model.py"):
         _ = broken.churn_metadata
 

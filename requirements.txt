@@ -1,4 +1,4 @@
-# EcomIQ — RUNTIME dependencies for the Streamlit app.
+# PropheticIQ — RUNTIME dependencies for the Streamlit app.
 #
 # Streamlit Community Cloud installs from this file. Keep it minimal: every
 # extra package is build time and memory on a 1GB container.
