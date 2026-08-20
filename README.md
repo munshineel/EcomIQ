@@ -1,3 +1,13 @@
+---
+title: PropheticIQ
+emoji: 📊
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+app_file: app/Home.py
+pinned: false
+---
+
 # PropheticIQ — E-Commerce Intelligence & Decision Platform
 
 End-to-end analytics platform on the [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
