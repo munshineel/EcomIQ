@@ -14,7 +14,7 @@ from _shared import (
 page_setup("Review Intelligence",
            "Complaint themes from 40,977 Portuguese reviews — what to fix and who owns it")
 
-require_artifacts("sentiment model", "dashboard orders")
+require_artifacts("dashboard orders")
 
 orders = load_orders()
 sentiment = load_sentiment()

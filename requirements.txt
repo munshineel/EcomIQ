@@ -9,7 +9,7 @@
 #
 # For training (notebooks 01-07) install requirements-dev.txt as well.
 
-streamlit>=1.35,<2.0
+scikit-learn==1.8.0
 pandas>=2.2,<4.0
 numpy>=1.26,<3.0
 scikit-learn>=1.6,<2.0     # unpickles models/churn_model.joblib
