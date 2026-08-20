@@ -4,15 +4,14 @@
 # extra package is build time and memory on a 1GB container.
 #
 # Versions are pinned to a compatible range because the app unpickles a model
-# trained with scikit-learn 1.8. Unpickling across a major sklearn version
+# trained with scikit-learn 1.5.2. Unpickling across a major sklearn version
 # raises InconsistentVersionWarning and can fail outright.
 #
 # For training (notebooks 01-07) install requirements-dev.txt as well.
 
-scikit-learn==1.8.0
+scikit-learn==1.5.2
 pandas>=2.2,<4.0
 numpy>=1.26,<3.0
-scikit-learn>=1.6,<2.0     # unpickles models/churn_model.joblib
 scipy>=1.11,<2.0           # sparse matrices in the recommender fallback
 joblib>=1.3,<2.0           # artifact loading
 pyarrow>=15.0              # parquet
